@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SOUL ARMY</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+        <div class="logo">SOUL ARMY</div>
+        <div class="cart-icon" onclick="toggleCart()">
+            <span>🛒</span> 
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <nav class="side-menu" id="sideMenu">
+        <button class="close-btn" onclick="toggleMenu()" style=>×</button>
+        <a href="#">Home</a>
+        <a href="#">Blogs</a>
+        <a href="#">About us</a>
+        <a href="#">Contact us</a>
+    </nav>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <button class="close-btn" onclick="toggleCart()">×</button>
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <div class="cart-total">
+            Total: ₱<span id="total-price">0</span>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Checkout Now</button>
+    </div>
+
+    <div class="main-hero" id="hero-section">
+        <div class="hero-content">
+            <h1>SHOP NOW</h1>
+            <a href="javascript:void(0)" class="cta" onclick="showProducts()">BUY NOW</a>
+        </div>
+    </div>
+
+    <section class="product-gallery" id="product-gallery" style="display: none;">
+        <h2 class="section-title">OUR COLLECTIONS</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-img"></div> 
+                <h3>Soul Army Tee</h3>
+                <p>₱599.00</p>
+                <button class="cart-btn" onclick="addToCart('Soul Army Tee', 599)">Add to Cart</button>
+                <button class="buy-now-btn" onclick="buyNow('Soul Army Tee', 599)">Buy Now</button>
+            </div>
+            <div class="product-card">
+                <div class="product-img"></div>
+                <h3>Military Hoodie</h3>
+                <p>₱1,200.00</p>
+                <button class="cart-btn" onclick="addToCart('Military Hoodie', 1200)">Add to Cart</button>
+                <button class="buy-now-btn" onclick="buyNow('Military Hoodie', 1200)">Buy Now</button>
+            </div>
+            <div class="product-card">
+                <div class="product-img"></div>
+                <h3>Tactical Cap</h3>
+                <p>₱350.00</p>
+                <button class="cart-btn" onclick="addToCart('Tactical Cap', 350)">Add to Cart</button>
+                <button class="buy-now-btn" onclick="buyNow('Tactical Cap', 350)">Buy Now</button>
+            </div>
+        </div>
+    </section>
+
+<script>
+    let cart = [];
+
+    function toggleMenu() {
+        document.getElementById("sideMenu").classList.toggle("open");
+    }
+
+    function toggleCart() {
+        document.getElementById("cart-sidebar").classList.toggle("open");
+    }
+
+    function showProducts() {
+        document.getElementById("hero-section").style.display = "none";
+        document.getElementById("product-gallery").style.display = "block";
+        window.scrollTo(0, 0);
+    }
+
+    function addToCart(name, price) {
+        cart.push({name, price});
+        updateCartUI();
+        alert(name + " added to cart!");
+    }
+
+    function buyNow(name, price) {
+        cart = [{name, price}];
+        updateCartUI();
+        toggleCart();
+    }
+
+    function updateCartUI() {
+        const cartItemsElement = document.getElementById("cart-items");
+        const totalElement = document.getElementById("total-price");
+        const countElement = document.getElementById("cart-count");
+        
+        cartItemsElement.innerHTML = "";
+        let total = 0;
+
+        cart.forEach((item) => {
+            total += item.price;
+            cartItemsElement.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>₱${item.price}</span>
+                </div>
+            `;
+        });
+
+        totalElement.innerText = total.toLocaleString();
+        countElement.innerText = cart.length;
+    }
+
+    function checkout() {
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+        } else {
+            alert("Proceeding to payment for total: ₱" + document.getElementById("total-price").innerText);
+        }
+    }
+</script>
+</body>
+</html>
